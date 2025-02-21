@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Zen Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Japanese-Inspired Theme */
+        body {
+            background-color: #2b2b2b; /* Dark Zen Gray */
+            color: #f5e8da; /* Warm Off-White */
+            font-family: 'Noto Serif JP', serif;
+            text-align: center;
+            margin: 0;
+            padding: 40px 20px;
+            overflow: hidden; /* Prevents horizontal scroll */
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #d48f38; /* Warm Golden Accent */
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: #c5b8a6;
+            margin-bottom: 40px;
+        }
+
+        /* Product Grid */
+        .product-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Product Card */
+        .product-card {
+            background: #3b3b3b;
+            width: 320px;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.6s ease;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0px 20px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Product Name */
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffcc80; /* Soft Gold */
+        }
+
+        /* Product Description */
+        .card-text {
+            font-size: 1rem;
+            color: #d9c5b2;
+            margin-bottom: 15px;
+        }
+
+        /* Price */
+        .price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #f28b82; /* Warm Coral Red */
+            margin-bottom: 20px;
+        }
+
+        /* Buy Now Button */
+        .buy-btn {
+            background: #d48f38;
+            border: none;
+            padding: 12px 20px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            background: #b6752b;
+            transform: scale(1.05);
+        }
+
+        /* Sakura Petals Falling */
+        .sakura {
+            position: absolute;
+            top: -10px;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Cherry_blossom_flower_icon.svg/1024px-Cherry_blossom_flower_icon.svg.png');
+            background-size: contain;
+            width: 30px;
+            height: 30px;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-container {
+                gap: 20px;
+            }
+
+            .product-card {
+                width: 90%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h2>美しさと技術 – The Art of Technology</h2>
+    <p class="subtitle">Minimalism meets Innovation – Inspired by Japanese Aesthetics</p>
+
+    <div class="product-container">
+        {% for pro in prod %}
+        <div class="product-card">
+            <h5 class="card-title">
+                {% if loop.index == 1 %} 🍏 {% elif loop.index == 2 %} 🎮 {% elif loop.index == 3 %} 🎧 {% elif loop.index == 4 %} ⌚ {% endif %}
+                {{ pro.name }}
+            </h5>
+            <p class="card-text">{{ pro.desc }}</p>
+            <p class="price">${{ pro.price }}</p>
+            <button class="buy-btn">購入する</button> <!-- Buy Now in Japanese -->
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Function to generate sakura petals
+        function createSakura() {
+            const sakura = document.createElement('div');
+            sakura.classList.add('sakura');
+
+            // Randomize position
+            sakura.style.left = Math.random() * window.innerWidth + 'px';
+            
+            // Random duration
+            let duration = Math.random() * 5 + 5; // Between 5s to 10s
+            sakura.style.animationDuration = duration + 's';
+
+            // Random size
+            let size = Math.random() * 20 + 20; // Between 20px and 40px
+            sakura.style.width = size + 'px';
+            sakura.style.height = size + 'px';
+
+            document.body.appendChild(sakura);
+
+            // Remove element after animation ends
+            setTimeout(() => {
+                sakura.remove();
+            }, duration * 1000);
+        }
+
+        // Generate sakura petals every 300ms
+        setInterval(createSakura, 300);
+    </script>
+
+</body>
+</html>
