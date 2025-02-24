@@ -1,138 +1,162 @@
+
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>You Can't Afford Mate - Luxury Collection</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
+        /* General Reset */
         body {
-            font-family: 'Times New Roman', serif;
-            background-color: #f5f5f5;
-            color: #333;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #222;
             margin: 0;
             padding: 0;
-            transition: background 0.5s ease, color 0.5s ease;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .dark-mode {
-            background-color: #1a1a1a;
-            color: #f5f5f5;
-        }
-
+        /* Navbar */
         .navbar {
-            background: #fff;
-            padding: 15px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-mode .navbar {
+            padding: 15px;
             background: #222;
+            color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        .navbar h1 {
-            color: #e63946;
-            font-size: 28px;
-            margin: 0;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar h1::before {
-            content: '\1F6D2'; /* Shopping cart icon */
-            margin-right: 10px;
-        }
-
         .search-bar input {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 8px;
+            padding: 8px;
+            border-radius: 5px;
             border: 1px solid #ccc;
-            outline: none;
-            background: #fff;
-            color: #333;
         }
 
+        /* Dark Mode */
+        .dark-mode {
+            background-color: #121212;
+            color: #f1f1f1;
+        }
+        .dark-mode .navbar {
+            background: #333;
+        }
         .dark-mode .search-bar input {
-            background: #444;
-            color: #f5f5f5;
+            background: #333;
+            color: white;
             border: 1px solid #777;
         }
+        .dark-mode .product {
+            background: #1e1e1e;
+            color: white;
+            box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+        }
+        .dark-mode .btn-primary {
+            background: #0d6efd;
+            color: white;
+        }
+        .dark-mode .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .dark-mode #toggle-dark-mode {
+            color: white;
+        }
 
+        /* Toggle Button */
+        #toggle-dark-mode {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Product Grid */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin: 40px auto;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
             padding: 20px;
-            max-width: 1200px;
         }
-
         .product {
             background: white;
-            border-radius: 10px;
+            color: #222;
             padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
-            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            color: #333;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
-        .dark-mode .product {
-            background: #333;
-            color: #f5f5f5;
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
         }
-
         .product img {
             width: 100%;
-            max-height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .product:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .submit-btn {
-            background-color: #e63946;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 16px;
+            height: auto;
             border-radius: 5px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 8px 12px;
+            border: none;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
         }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
 
-        .submit-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            background-color: #d62828;
-        }
-
-        form {
-            max-width: 500px;
-            margin: 30px auto;
+        /* Edit Form */
+        .edit-form {
+            display: none;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
             padding: 20px;
-            background: white;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            color: #333;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
         }
-
-        .dark-mode form {
+        .edit-form input {
+            width: 100%;
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: white;
+            color: black;
+        }
+        .dark-mode .edit-form {
+            background: #222;
+            color: white;
+        }
+        .dark-mode .edit-form input {
             background: #333;
-            color: #f5f5f5;
+            color: white;
             border: 1px solid #777;
         }
+        .edit-form button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .save-btn { background: #28a745; color: white; }
+        .cancel-btn { background: #6c757d; color: white; }
+
     </style>
 </head>
 <body>
@@ -147,7 +171,7 @@
     <form method="POST" enctype="multipart/form-data" id="product-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="submit-btn">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
     <section class="product-grid" id="product-grid">
@@ -158,29 +182,50 @@
                 <p>Size: {{ p_i.size }}</p>
                 <p>Colour: {{ p_i.colour }}</p>
                 <p class="price">₹{{ p_i.price }}</p>
+
+                <button class="btn btn-primary" onclick="openEditForm('{{ p_i.id }}')">Edit</button>
+                <a href="{% url 'delete_product' p_i.id %}" class="btn btn-danger">Delete</a>
+
+                <div id="edit-form-{{ p_i.id }}" class="edit-form">
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'edit_product' p_i.id %}">
+                        {% csrf_token %}
+                        <label>Name:</label>
+                        <input type="text" name="name" value="{{ p_i.name }}">
+                        <label>Size:</label>
+                        <input type="text" name="size" value="{{ p_i.size }}">
+                        <label>Colour:</label>
+                        <input type="text" name="colour" value="{{ p_i.colour }}">
+                        <label>Price:</label>
+                        <input type="text" name="price" value="{{ p_i.price }}">
+                        <label>Image:</label>
+                        <input type="file" name="image">
+                        <button type="submit" class="save-btn">Save Changes</button>
+                        <button type="button" class="cancel-btn" onclick="closeEditForm('{{ p_i.id }}')">Cancel</button>
+                    </form>
+                </div>
             </div>
         {% endfor %}
     </section>
 
     <script>
-        document.getElementById('toggle-dark-mode').addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const darkModeToggle = document.getElementById('toggle-dark-mode');
+            darkModeToggle.addEventListener('click', function () {
+                document.body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            });
 
-        window.onload = function() {
             if (localStorage.getItem('darkMode') === 'true') {
                 document.body.classList.add('dark-mode');
             }
-        };
-
-        document.getElementById('search').addEventListener('input', function() {
-            let query = this.value.toLowerCase();
-            document.querySelectorAll('.product').forEach(product => {
-                let name = product.querySelector('p strong').textContent.toLowerCase();
-                product.style.display = name.includes(query) ? 'block' : 'none';
-            });
         });
+
+        function openEditForm(productId) {
+            document.getElementById('edit-form-' + productId).style.display = 'block';
+        }
+        function closeEditForm(productId) {
+            document.getElementById('edit-form-' + productId).style.display = 'none';
+        }
     </script>
 </body>
 </html>
